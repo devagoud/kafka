@@ -3,6 +3,7 @@ package com.kafka.kafkaproducer.kafkaproducer.kafkaconfig;
 import com.esotericsoftware.kryo.serializers.DefaultSerializers;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
@@ -40,9 +41,12 @@ public class KafkaProducerConfig {
         Properties producerProps = new Properties();
         producerProps.put("bootstrap.servers", "localhost:9092");
         producerProps.put("enable.idempotence", "true");
+        producerProps.put("acks","all");
         producerProps.put("transactional.id", "prod-1");
-        producerProps.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        producerProps.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        //max.in.flight.requests.per.connection=1
+        producerProps.put("key.serializer", StringSerializer.class.getName());
+        producerProps.put("value.serializer", StringSerializer.class.getName());
+
         KafkaProducer kafkaProducer=new KafkaProducer(producerProps);
         return kafkaProducer;
 

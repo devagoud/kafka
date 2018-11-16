@@ -20,11 +20,11 @@ private KafkaTemplate kafkaTemplate;
     public void msg(String msg) {
         Greeting greeting=new Greeting();
         greeting.setMsg(msg);
-//        kafkaProducer.initTransactions();
-//        kafkaProducer.beginTransaction();
-        kafkaProducer.send(new ProducerRecord("deva",greeting));
-       // kafkaTemplate.send("deva",greeting);
-        kafkaProducer.commitTransaction();
+      kafkaProducer.initTransactions();
+    //  kafkaProducer.beginTransaction();
+        kafkaProducer.send(new ProducerRecord("deva",greeting.getMsg()));
+       kafkaTemplate.send("deva",greeting);
+       kafkaProducer.commitTransaction();
     }
 
 }
